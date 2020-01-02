@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="imgUpload.js"></script>    
+<title>Demo</title>
+</head>
+<body>
+<div class="upload-box-1">上传</div>
+<div class="upload-box-2">上传</div>
+<script type="text/javascript">
+$(function () {
+	var upload1 = $('.upload-box-1').ZX_upload({
+		maxCount: 1
+	});
+	var upload2 = $('.upload-box-2').ZX_upload({
+		maxCount: 5
+	});
+
+});
+</script>
+</body>
+</html>

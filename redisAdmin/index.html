@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Redis Admin</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"> 
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">  
+    <link rel="stylesheet" href="./layui.css"  media="all">
+</head>
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <div class="layui-logo">Redis Admin</div>
+            <!-- 头部区域（可配合layui已有的水平导航） -->
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item"><a href="#">Redis</a></li>      
+            </ul>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <img src="timg.jpg" class="layui-nav-img">贤心
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">基本资料</a></dd>
+                        <dd><a href="">安全设置</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="">退了</a></li>
+            </ul>
+        </div>
+
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a class="" href="javascript:;">选择数据库</a>
+                        <dl class="layui-nav-child" id="db_list">
+                            <dd class="layui-this" data="0"><a href="javascript:;">DB-0</a></dd>
+                            <dd data="1"><a href="javascript:;">DB-1</a></dd>
+                            <dd data="2"><a href="javascript:;">DB-2</a></dd>
+                            <dd data="3"><a href="javascript:;">DB-3</a></dd>
+                            <dd data="4"><a href="javascript:;">DB-4</a></dd>
+                            <dd data="5"><a href="javascript:;">DB-5</a></dd>
+                            <dd data="6"><a href="javascript:;">DB-6</a></dd>
+                            <dd data="7"><a href="javascript:;">DB-7</a></dd>
+                            <dd data="8"><a href="javascript:;">DB-8</a></dd>
+                            <dd data="9"><a href="javascript:;">DB-9</a></dd>
+                            <dd data="10"><a href="javascript:;">DB-10</a></dd>
+                            <dd data="11"><a href="javascript:;">DB-11</a></dd>
+                            <dd data="12"><a href="javascript:;">DB-12</a></dd>
+                            <dd data="13"><a href="javascript:;">DB-13</a></dd>
+                            <dd data="14"><a href="javascript:;">DB-14</a></dd>
+                            <dd data="15"><a href="javascript:;">DB-15</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item"><a href="#">其他</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="layui-body">
+            <!-- 内容主体区域 -->
+            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                <ul class="layui-tab-title" id="mainTab">
+                    <li class="layui-this">字符串(String)</li>
+                    <li>哈希(Hash)</li>
+                    <li>列表(List) </li>
+                    <li>集合(Set)</li>
+                    <li>有序集合(ZSet)</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <!--tab1-->
+                    <div class="layui-tab-item layui-show">
+                        <form class="layui-form layui-form-pane">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">Key</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="keyString" placeholder="" class="layui-input"/>
+                                </div>
+                                <button type="button" onclick="getString();" class="layui-btn">查询</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!--tab2-->
+                    <div class="layui-tab-item">
+                        <form class="layui-form layui-form-pane" action="">
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">Key</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="keyHash" placeholder="" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid">Index</div>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="indexHash" placeholder="" class="layui-input">
+                                    </div>
+                                    <button type="button" onclick="getHash();" class="layui-btn">查询</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!--tab3-->
+                    <div class="layui-tab-item">
+                        <form class="layui-form layui-form-pane" action="">
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">Key</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="keyList" placeholder="" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid">范围</div>
+                                    <div class="layui-input-inline" style="width: 100px;">
+                                        <input type="text" id="indexListStart" placeholder="" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid"> - </div>
+                                    <div class="layui-input-inline" style="width: 100px;">
+                                        <input type="text" id="indexListEnd" placeholder="" class="layui-input">
+                                    </div>
+                                    <button type="button" onclick="getList();" class="layui-btn">查询</button>
+                                </div>
+                            </div>
+                        </form>	
+                    </div>
+                    <!--tab4-->
+                    <div class="layui-tab-item">
+                        <form class="layui-form layui-form-pane">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">Key</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="keySet" placeholder="" class="layui-input"/>
+                                </div>
+                                <button type="button" onclick="getSet();" class="layui-btn">查询</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!--tab5-->
+                    <div class="layui-tab-item">
+                        <form class="layui-form layui-form-pane" action="">
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">Key</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="keyZSet" placeholder="" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid">范围</div>
+                                    <div class="layui-input-inline" style="width: 100px;">
+                                        <input type="text" id="indexZSetStart" placeholder="" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid"> - </div>
+                                    <div class="layui-input-inline" style="width: 100px;">
+                                        <input type="text" id="indexZSetEnd" placeholder="" class="layui-input">
+                                    </div>
+                                    <button type="button" onclick="getZSet();" class="layui-btn">查询</button>
+                                </div>
+                            </div>
+                        </form>	
+                    </div>
+                    <form class="layui-form layui-form-pane">
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">值</label>
+                            <div class="layui-input-block">
+                                <textarea style="height:300px;" id="redisval" class="layui-textarea"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div> 
+        </div>
+
+        <div class="layui-footer">
+            <!-- 底部固定区域 -->
+            © redis admin
+        </div>
+    </div>
+    <script src="./layui.js" charset="utf-8"></script>
+    <script src="./jquery.min.js" charset="utf-8"></script>
+    <script src="./index.js" charset="utf-8"></script>
+</body>
+</html>

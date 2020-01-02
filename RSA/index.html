@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Test</title>
+</head>
+<body>
+<dt>
+  <dd>
+    密钥:<input type="text" name="auth"/>
+	<input type="button" value="提交"/>
+  </dd>
+</dt>
+
+<script src="./rsa.js"></script>
+<script type="text/javascript">
+    //公钥
+    var PUBLIC_KEY = '-----BEGIN PUBLIC KEY-----MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDGiRalsfubxrTyZfvMYo+m6ie34c08o6B2iM/9F5StJrgOsGPv+zRL5KqWS6k7CD87hrcThmk4BLWUN7VUB95Y7bHX6/ZLem0eHSF8jClWVWlmDhIX6AS6+KbhSYOhUgoTQG56cWk005piLF6tw5X59ajwk/pWD/RgIQ9tEdLw9QIDAQAB-----END PUBLIC KEY-----';
+    //私钥
+    var PRIVATE_KEY = '-----BEGIN RSA PRIVATE KEY-----MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAMaJFqWx+5vGtPJl+8xij6bqJ7fhzTyjoHaIz/0XlK0muA6wY+/7NEvkqpZLqTsIPzuGtxOGaTgEtZQ3tVQH3ljtsdfr9kt6bR4dIXyMKVZVaWYOEhfoBLr4puFJg6FSChNAbnpxaTTTmmIsXq3Dlfn1qPCT+lYP9GAhD20R0vD1AgMBAAECgYAXkxOzXS0JVFEML3v0ywdPxKIuvYtHVg6pxJkd7nzjCqP0apGTX3rYQDDZY+aWceZARUDb+qvn0PdWwD6x2bVXF/2FwOKdYuNFkiiuODdyXmHb+EJ7OvEvgWI+dQKFBUhgOjQ1lGo8c34LTOLprW316+i6VspawBtCqF4qcTCNgQJBAP9fp4bUlA7+erV7s4Jqn2lHxuyaZa5vrRMdxbKOm2eKD7AcSRJ3+EaCScckN0/ot+w53PoMGFnsH3jLLf0vmaUCQQDHBb8FQmgW/5CbWj4erZbSM5JMFiRk/enSyvi+d2xtg3OGLLKy90LPdntiEDSEIwxrgnowLb8LblaDQ4/UZDkRAkEA7jp8nKIYkLhDHqQMPMBcf6ku4C/UZVrWuTuP3td8D6XSprZsUGdMW/JVAwo88zWkxiDgjP7VhKVqYpQgDc3m5QJBAJ7zseqLbQLhPic1XeO2lHxxf+iQzqRyPuuB/ERysQCOOhfxXw+cd5mmcUiS1L6sF2FOJjSQdMK2bxYLQbZKDWECQQCx3LBstqMOy0MSnEfqOwHiEMoPfFSm7ydq1B1sTyKELFBFn0ozFKmrl3vLqwsV77xkr878Noz35Dja8wHWf5y9-----END RSA PRIVATE KEY-----';
+    var obj = rsa()
+    var crypt = new obj.JSEncrypt();
+    crypt.setPublicKey(PUBLIC_KEY);
+    crypt.setPrivateKey(PRIVATE_KEY);
+    //使用公钥加密
+    var encrypted = crypt.encrypt('hello world JS 啊');
+   
+    document.write("<textarea>"+encrypted+"</textarea>");
+	document.write("<br/>");
+	//使用私钥解密
+	var strget = 'R6qU8uRw1z8SDLkCsCexEuv+T3ibQ+CRAGLujUB3uw9Vn0uhxp1aUPgLEJSGgixMc7k9MRecMT6F7NX0JHYZW6we3jneKbE5iY+e91Pf+fBaML4uCojPdwlP55xivqHigvhOX0mOza71AP1Q7oTOM44IOJMkBfASIszuRxHM26s=';
+    var decrypted = crypt.decrypt(strget);
+    document.write(decrypted);
+	document.write("<br/>");
+</script>
+
+
+</body>
+</html>

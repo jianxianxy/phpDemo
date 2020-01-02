@@ -1,0 +1,125 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>layer-更懂你的web弹窗解决方案</title>
+
+  <style>
+  html{background-color:#E3E3E3; font-size:14px; color:#000; font-family:'微软雅黑'}
+  a,a:hover{ text-decoration:none;}
+  pre{font-family:'微软雅黑'}
+  .box{padding:20px; background-color:#fff; margin:50px 100px; border-radius:5px;}
+  .box a{padding-right:15px;}
+  #about_hide{display:none}
+  .layer_text{background-color:#fff; padding:20px;}
+  .layer_text p{margin-bottom: 10px; text-indent: 2em; line-height: 23px;}
+  .button{display:inline-block; *display:inline; *zoom:1; line-height:30px; padding:0 20px; background-color:#56B4DC; color:#fff; font-size:14px; border-radius:3px; cursor:pointer; font-weight:normal;}
+  .photos-demo img{width:200px;}
+  </style>
+  
+  <script src="jquery.min.js"></script>
+  <script src="layer/layer.js"></script>
+</head>
+<body>
+<div class="box">
+<pre>
+
+<strong>【注意事项】</strong>
+一、使用时，请把文件夹layer整个放置在您站点的任何一个目录，只需引入layer.js即可，除jQuery外，其它文件无需再引入。
+二、如果您的js引入是通过合并处理或者您不想采用layer自动获取的绝对路径，您可以通过layer.config()来配置（详见官网API页）
+三、jquery需1.8+
+四、更多使用说明与演示，请参见layer官网。
+五、使用时请务必保留来源，请勿用于违反我国法律法规的web平台。
+六、layer遵循MIT开源协议，将永久性提供无偿服务。
+</pre>
+</div>
+
+<div class="box" style="text-align:center">
+  <a href="http://layer.layui.com/" target="_blank">更多示例</a>
+  <a href="javascript:;" id="tips">tips</a>
+  <a href="javascript:;" id="alert">alert</a>
+  <a href="javascript:;" id="divDialog">自定义弹窗</a>
+  <a href="javascript:;" id="tipDialog">询问窗</a>
+  <a href="javascript:;" id="tipDialog2">询问2</a>
+  <a href="javascript:;" id="load">Load</a>
+</div>
+
+<script>
+/*
+layer.ready(function() {
+	layer.open({
+		type: 2,
+		title: '欢迎页',
+		maxmin: true,
+		area: ['800px', '500px'],
+		content: 'http://layer.layui.com/test/welcome.html',
+		end: function() {
+			alert("end");	
+		}
+	});
+});
+*/
+//alert
+$('#alert').on('click',function() {
+	layer.alert(layer.v + ' - 贤心出品 sentsin.com');
+});
+//tips
+$('#tips').on('click',function() {
+	layer.tips('Hi', '#tips', {
+		tips: 1
+	});
+});
+//div
+$('#divDialog').on("click",function() {
+    layer.open({
+        type: 1,
+        skin: 'layui-layer-demo',
+        //样式类名
+        closeBtn: 1,
+        //不显示关闭按钮
+        anim: 2,
+        shadeClose: true,
+        //开启遮罩关闭
+        content: '<div style="width:200px;height:100px;padding:10px 20px;">DIV自定义内容</div>'
+    });
+});
+
+$("#tipDialog").on("click",function() {
+	//询问框
+	layer.confirm('您是如何看待前端开发？', {
+	    btn: ['重要','奇葩'] //按钮
+	}, function(){
+	    layer.msg('的确很重要', {icon: 1});
+	}, function(){
+	    layer.msg('也可以这样', {
+		    time: 20000, //20s后自动关闭
+		    btn: ['明白了', '知道了']
+	    });
+	});
+});
+
+$("#tipDialog2").on("click",function() {
+	layer.msg('您确认要更新匹配？', {btn: ['确认','取消']},
+        function(layIndex){
+			layer.close(layIndex);
+			alert("确认")
+		},function(){alert("取消")}
+    );
+});
+
+$("#load").on("click",function() {
+	//eg1
+	var index = layer.load();
+	//eg2
+	//var index = layer.load(1); //换了种风格
+	//eg3
+	//var index = layer.load(2, {time: 10*1000}); //又换了种风格，并且设定最长等待10秒 
+	//关闭
+	//layer.close(index);     
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+*.log
+conf_pro.php
+Runtime/*
+/sql/
+/nbproject/
+/thinkphp/
+redisAdmin/conf_db.php

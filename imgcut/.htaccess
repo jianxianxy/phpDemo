@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+    Options +FollowSymlinks -Multiviews
+    RewriteEngine On
+    RewriteCond %{DOCUMENT_ROOT}%{REQUEST_FILENAME} !-s 
+    RewriteCond %{DOCUMENT_ROOT}%{REQUEST_FILENAME} !-l 
+    RewriteCond %{DOCUMENT_ROOT}%{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)\.(jpg|png|bmp|gif)(.*)imgcorp$ http://www.t.com/imgcut/creat.php?path=%{REQUEST_URI} [NC,L]
+
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
+</IfModule>

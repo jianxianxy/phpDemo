@@ -1,0 +1,277 @@
+<html>
+<head>
+<title>咪咕API</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="jquery.js"></script>
+<style>
+    hr{border:1px dotted teal;width:100%;margin:15px 0px;}
+    td{border:cadetblue 1px solid}
+</style>
+</head>
+<body>
+<div>    
+    APIID:<br/><textarea style="width:90%;height:100px;" id="apiId">201023|201020|201030|201031|201025|201026|201032|201033|201024</textarea><br/>
+    <button onclick="getApiId();">获取ApiID</button>
+    <hr/>
+    创建直播参数：<br/>
+    <form id="live">
+    title:<input type="text" name="title" value="我的测试"/>
+    subject：<input type="text" name="subject" value="直播主题"/>
+    startTime:<input type="text" name="startTime" value="2019-09-01 00:00:00"/>
+    endTime：<input type="text" name="endTime" value="2019-12-31 00:00:00"/>
+    <br/>
+    liveType(push|pull)：<input type="text" name="liveType" value="push"/>
+    ingestSrc(pull时)：<input type="text" name="ingestSrc" value="http://ivi.bupt.edu.cn/hls/cctv1.m3u8" style="width:300px;"/>
+    <br/>
+    record：<input type="text" name="record" value="0"/>
+    timeShift：<input type="text" name="timeShift" value="1"/>
+    playMode：<input type="text" name="playMode" value="0"/>
+    cdnType： <input type="text" name="cdnType" value="1"/>
+    </form>
+    <button onclick="createLiveGood();">创建直播-重构</button>
+    <button onclick="createLive();">创建直播</button><br/>
+    <hr/>
+    修改直播：<br/>
+    <form id="update">
+    title:<input type="text" name="title" value="我的测试"/>
+    subject：<input type="text" name="subject" value="直播主题"/>
+    startTime:<input type="text" name="startTime" value="2019-09-01 00:00:00"/>
+    endTime：<input type="text" name="endTime" value="2019-12-31 00:00:00"/>
+    <br/>
+    liveType(push|pull)：<input type="text" name="liveType" value="push"/>
+    ingestSrc(pull时)：<input type="text" name="ingestSrc" value="http://ivi.bupt.edu.cn/hls/cctv1.m3u8" style="width:300px;"/>
+    <br/>
+    直播ID:<input type="text" name="id" style="width:300px;"/><br/>    
+    </form>
+    <button onclick="updateLive();">修改直播</button><br/>
+    <hr/>
+    直播列表：<br/>
+    pageSize：<input type="text" id="pageSize" value="10"/>
+    <button onclick="getLiveList();">获取直播列表</button><br/>
+    <table id="liveListDiv"></table>
+    <hr/>
+    其他操作:<br/>
+    直播ID:<input type="text" id="liveId" style="width:300px;"/>
+    <button onclick="liveInfo();">获取直播详情</button>
+    <button onclick="delLive();">删除直播</button>
+    <button onclick="getLivePushUrl();">获取推流地址</button>    
+    <button onclick="getLivePlayUrl();">获取播放地址</button>
+    [
+    <button onclick="pullLivePlay();">拉流模式开始直播</button>    
+    <button onclick="pullLiveStop();">拉流模式停止直播</button>    
+    ]
+    <p id="pushInfo"></p>
+    <p id="playInfo"></p>    
+    <p id="liveInfo"></p>
+</div>
+<script>
+var conf = {
+    'uid':3204,
+    'grant_type':'v2.0',
+    'secretId':'66f3ba1ce4d72815cbfefc10e04f2bda',
+    'secretkey':'33db8971aa439d600ca9307a4bf3b2e3',
+    'random':12345678,
+    'currentTimeStamp':1567558237672,
+    'expired':1567565437672
+}    
+//获取apiId，获取token需要使用这些ID
+function getApiId(){
+    $.get('apiMigu.php?mod=apiId',{},function(jrt){
+        if(typeof(jrt.curlErr) != undefined){
+            $("#apiId").val(jrt.data);
+        }else{
+            alert("网络连接失败。");
+        }
+    },'json');
+}
+//创建直播 201023
+function createLiveGood(){
+    var apiId = $.trim($("#apiId").val());
+    var form = {};    
+    //表单数据处理
+    $("#live input").each(function(){
+        var name = $(this).attr("name");
+        var val = $(this).val();
+        eval("form." + name + " = " + "'" + val + "'");        
+    });
+    if(form.liveType == 'push'){
+        delete form.ingestSrc;
+    }
+    $.post('apiMigu.php?mod=createpef&apiId='+apiId, JSON.stringify(form) ,function(rjs){
+        console.log(rjs);
+        if(rjs.ret == 0){
+            alert("创建成功");
+        }
+    },"json");         
+}
+//创建直播 201023
+function createLive(){
+    var apiId = $("#apiId").val();
+    conf.apiId = apiId;
+    var tokurl = 'getToken.class.php?';
+    var query = [];
+    for (var key in conf) {
+        query.push(key + '=' + conf[key]);
+    }
+    tokurl += query.join('&');
+    console.log(tokurl);
+    //Api创建直播接口地址
+    var apiUrl = 'http://test.migucloud.com/l2/live/createChannel?';
+    var queryApi = [];
+    for (var key in conf) {
+        if(key != "secretkey"){
+            queryApi.push(key + '=' + conf[key]);
+        }
+        
+    }
+    apiUrl += queryApi.join('&');
+    console.log(apiUrl);
+    
+    var form = {};    
+    //表单数据处理
+    $("#live input").each(function(){
+        var name = $(this).attr("name");
+        var val = $(this).val();
+        eval("form." + name + " = " + "'" + val + "'");        
+    });
+    if(form.liveType == 'push'){
+        delete form.ingestSrc;
+    }
+    //发送请求
+    $.ajax({
+        type: "POST",
+        url: tokurl,
+        contentType: "application/json;charset=utf-8",
+        data: JSON.stringify(form),
+        dataType: "json",
+        success: function (jrt) {
+          if(jrt.ret == 0){
+                apiUrl += '&token='+jrt.result.token;
+                jrt.result.formData = form;
+                $.post('apiMigu.php?mod=created',{url:apiUrl,formData:JSON.stringify(form)},function(rjs){
+                    console.log(rjs);
+                },"json");                
+            }else{
+                alert(art.msg);
+            }
+        },
+        error: function (jrt) {
+            console.log(jrt);
+        }
+    });
+}
+//修改直播 201025
+function updateLive(){
+    var apiId = $.trim($("#apiId").val());
+    var form = {};    
+    //表单数据处理
+    $("#update input").each(function(){
+        var name = $(this).attr("name");
+        var val = $.trim($(this).val());
+        eval("form." + name + " = " + "'" + val + "'");        
+    });
+    if(form.liveType == 'push'){
+        delete form.ingestSrc;
+    }
+    $.post('apiMigu.php?mod=update&apiId='+apiId, JSON.stringify(form) ,function(rjs){
+        console.log(rjs);
+        if(rjs.ret == 0){
+            alert("修改成功");
+        }
+    },"json");             
+}
+//删除201026
+function delLive(){
+    var apiId = $.trim($("#apiId").val());     
+    var id = $.trim($("#liveId").val());
+    var form = {"id":id};  
+    $.post('apiMigu.php?mod=del&apiId='+apiId, JSON.stringify(form) ,function(rjs){
+        console.log(rjs);
+        if(rjs.ret == 0){
+            alert("删除成功");
+        }
+    },"json");       
+}
+//直播列表 201020
+function getLiveList(){
+    var apiId = $.trim($("#apiId").val());
+    var pageSize = $("#pageSize").val();
+    var form = {"pageSize":pageSize};
+    $.post('apiMigu.php?mod=list&apiId='+apiId, JSON.stringify(form) ,function(rjs){
+        console.log(rjs);
+        if(rjs.ret == 0){
+            var list = rjs.result.content;
+            var info = '';
+            for(var i in list){
+                info += "<tr><td>ID:</td><td>" + list[i].id + "</td><td>Title:</td><td>" + list[i].title + "</td><td>liveType:</td><td>" + list[i].liveType + "</td></tr>";
+            }
+            $("#liveListDiv").html(info);
+        }
+    },"json");        
+}
+//推流地址 201030
+function getLivePushUrl(){
+    var channel_id = $.trim($("#liveId").val());
+    var apiId = $.trim($("#apiId").val());
+    $.get('apiMigu.php?mod=push&apiId='+apiId, {"channel_id":channel_id} ,function(rjs){
+        console.log(rjs);
+        if(rjs.ret == 0){
+            var purl = rjs.result.cameraList[0].url;
+            $("#pushInfo").html("推流地址："+purl);
+        }
+    },"json");
+}
+//播放地址 201031
+function getLivePlayUrl(){
+    var channel_id = $.trim($("#liveId").val());
+    var apiId = $.trim($("#apiId").val());
+    $.get('apiMigu.php?mod=play&apiId='+apiId, {"channel_id":channel_id} ,function(rjs){
+        console.log(rjs);
+        if(rjs.ret == 0){
+            var phtml = '';
+            var info = rjs.result.cameraList[0].transcodeList[0];
+            console.log(info)
+            for(var i in info){
+                phtml += i+':'+info[i]+'<br/>';
+            }            
+            $("#playInfo").html(phtml);
+        }
+    },"json");
+}
+//拉流视频开始播放 201032
+function pullLivePlay(){
+    var channelId = $.trim($("#liveId").val());
+    var apiId = $.trim($("#apiId").val());
+    $.get('apiMigu.php?mod=playPull&apiId='+apiId, {"channelId":channelId} ,function(rjs){
+        console.log(rjs);
+        if(rjs.ret == 0){
+            alert("操作成功")
+        }
+    },"json");
+}
+//拉流视频开始播放 201033
+function pullLiveStop(){
+    var channelId = $.trim($("#liveId").val());
+    var apiId = $.trim($("#apiId").val());
+    $.get('apiMigu.php?mod=stopPull&apiId='+apiId, {"channelId":channelId} ,function(rjs){
+        console.log(rjs);
+        if(rjs.ret == 0){
+            alert("操作成功")
+        }
+    },"json");
+}
+//直播详情 201024
+function liveInfo(){
+    var channelId = $.trim($("#liveId").val());
+    var apiId = $.trim($("#apiId").val());
+    $.get('apiMigu.php?mod=info&apiId='+apiId, {"channelId":channelId} ,function(rjs){
+        console.log(rjs);
+        if(rjs.ret == 0){
+            $("#liveInfo").html(JSON.stringify(rjs.result));
+        }
+    },"json");
+}
+</script>
+</body>
+</html>
