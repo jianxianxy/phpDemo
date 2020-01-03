@@ -73,8 +73,11 @@ function getHashList(){
         title:"匹配",
         btn: ['匹配', '取消'],
         content:$("#keyMap"),
-        yes: function(layIndex){
-            layer.close(layIndex);
+        yes: function(){            
+            $("#keyMap").hide();
+        },
+        cancel:function(){
+            $("#keyMap").hide();
         }
     });    
 }

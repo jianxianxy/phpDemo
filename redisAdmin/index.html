@@ -9,7 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="apple-mobile-web-app-status-bar-style" content="black"> 
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">  
+    <meta name="format-detection" content="telephone=no">
+	<link rel="shortcut icon" href="./favicon.ico" /> 
     <link rel="stylesheet" href="./lib/layui/layui.css"  media="all">
 </head>
 <body class="layui-layout-body">
@@ -182,14 +183,22 @@
     <div id="keyMap" style="display:none;">
         <form class="layui-form layui-form-pane" style="margin:10px;">
             <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label">分组选择框</label>
-                    <div class="layui-input-inline">
-                        <select name="quiz">
-                            <option value="你工作的第一个城市">酒店映射</option>
-                            <option value="你工作的第一个城市">房型映射</option>
-                        </select>
-                    </div>
+                <label class="layui-form-label">酒店</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">单行选择框</label>
+                <div class="layui-input-block">
+                    <select name="interest" lay-filter="aihao">
+                        <option value=""></option>
+                        <option value="0">写作</option>
+                        <option value="1" selected="">阅读</option>
+                        <option value="2">游戏</option>
+                        <option value="3">音乐</option>
+                        <option value="4">旅行</option>
+                    </select>
                 </div>
             </div>
         </form>    
