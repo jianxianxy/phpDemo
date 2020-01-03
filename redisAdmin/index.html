@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black"> 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">  
-    <link rel="stylesheet" href="./layui.css"  media="all">
+    <link rel="stylesheet" href="./lib/layui/layui.css"  media="all">
 </head>
 <body class="layui-layout-body">
     <div class="layui-layout layui-layout-admin">
@@ -23,7 +23,7 @@
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
                     <a href="javascript:;">
-                        <img src="timg.jpg" class="layui-nav-img">贤心
+                        <img src="./lib/timg.jpg" class="layui-nav-img">贤心
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a href="">基本资料</a></dd>
@@ -101,6 +101,7 @@
                                         <input type="text" id="indexHash" placeholder="" class="layui-input">
                                     </div>
                                     <button type="button" onclick="getHash();" class="layui-btn">查询</button>
+                                    <button type="button" onclick="getHashList();" class="layui-btn">常用</button>
                                 </div>
                             </div>
                         </form>
@@ -178,8 +179,23 @@
             © redis admin
         </div>
     </div>
-    <script src="./layui.js" charset="utf-8"></script>
-    <script src="./jquery.min.js" charset="utf-8"></script>
-    <script src="./index.js" charset="utf-8"></script>
+    <div id="keyMap" style="display:none;">
+        <form class="layui-form layui-form-pane" style="margin:10px;">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">分组选择框</label>
+                    <div class="layui-input-inline">
+                        <select name="quiz">
+                            <option value="你工作的第一个城市">酒店映射</option>
+                            <option value="你工作的第一个城市">房型映射</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>    
+    </div>
+    <script src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script src="./lib/jquery.min.js" charset="utf-8"></script>    
+    <script src="./lib/index.js" charset="utf-8"></script>
 </body>
 </html>

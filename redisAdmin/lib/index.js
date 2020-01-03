@@ -63,3 +63,18 @@ function getZSet() {
     var query = {"db": DB, "type": "zset", "key": key, "start": indexStart, "end": indexEnd};
     ajaxQuery(query);
 }
+//Hash常用
+function getHashList(){
+    layer.open({
+        type: 1,
+        area: ['500px', '400px'],
+        closeBtn: 1,        
+        shadeClose: true,
+        title:"匹配",
+        btn: ['匹配', '取消'],
+        content:$("#keyMap"),
+        yes: function(layIndex){
+            layer.close(layIndex);
+        }
+    });    
+}
