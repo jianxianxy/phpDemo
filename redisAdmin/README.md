@@ -1,6 +1,6 @@
 # Common Code
 
-Ìí¼Óconf_db.phpÅäÖÃÎÄ¼þ
+æ·»åŠ conf_db.phpé…ç½®æ–‡ä»¶
 
 $conf = array(
     'host' => '',
