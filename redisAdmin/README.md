@@ -7,3 +7,20 @@ $conf = array(
     'port' => 6379,
     'auth' => ''
 );
+$config = array(
+    0 => [
+        'host' => '',
+	'port' => 6379,
+	'auth' => ''
+    ],
+    1 => [
+        'host' => '',
+	'port' => 6379,
+	'auth' => ''
+    ],
+    2 => [
+        'host' => '',
+	'port' => 6379,
+	'auth' => ''
+    ]
+);

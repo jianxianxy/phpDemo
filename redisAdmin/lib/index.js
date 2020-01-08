@@ -1,14 +1,25 @@
+//链接配置
+var CONN = 0;
+//DB选择
 var DB = 0;
 $(function () {
     $("#db_list dd").on("click", function () {
         var sel = $(this).attr("data");
         DB = sel;
     });
+	$(".layui-layout-left li").on("click",function(){
+		var con = $(this).attr("data");
+        CONN = con;	
+	});
     $("#mainTab").on("click",function(){
         $("#redisval").val("");
     });
 });
+
+
 function ajaxQuery(query) {
+	query.db = DB;
+	query.conn = CONN;
     $.post('./Redis.php', query, function (ret) {
         $("#redisval").val(ret);
     });
@@ -19,7 +30,7 @@ function getString() {
     if (key == '') {
         $("#keyString").prop("placeholder", "请输入Key值");
     }
-    var query = {"db": DB, "type": "string", "key": key};
+    var query = {"type": "string", "key": key};
     ajaxQuery(query);
 }
 //获取Hash
@@ -29,7 +40,7 @@ function getHash() {
         $("#keyHash").prop("placeholder", "请输入Key值");
     }
     var index = $("#indexHash").val();
-    var query = {"db": DB, "type": "hash", "key": key, "index": index};
+    var query = {"type": "hash", "key": key, "index": index};
     ajaxQuery(query);
 }
 //获取List
@@ -40,7 +51,7 @@ function getList() {
     }
     var indexStart = $("#indexListStart").val();
     var indexEnd = $("#indexListEnd").val();
-    var query = {"db": DB, "type": "list", "key": key, "start": indexStart, "end": indexEnd};
+    var query = {"type": "list", "key": key, "start": indexStart, "end": indexEnd};
     ajaxQuery(query);
 }
 //获取Set
@@ -49,7 +60,7 @@ function getSet() {
     if (key == '') {
         $("#keySet").prop("placeholder", "请输入Key值");
     }
-    var query = {"db": DB, "type": "set", "key": key};
+    var query = {"type": "set", "key": key};
     ajaxQuery(query);
 }
 //获取ZSet
@@ -60,7 +71,7 @@ function getZSet() {
     }
     var indexStart = $("#indexZSetStart").val();
     var indexEnd = $("#indexZSettEnd").val();
-    var query = {"db": DB, "type": "zset", "key": key, "start": indexStart, "end": indexEnd};
+    var query = {"type": "zset", "key": key, "start": indexStart, "end": indexEnd};
     ajaxQuery(query);
 }
 //Hash常用

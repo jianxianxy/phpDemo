@@ -1,14 +1,17 @@
 <?php
 header("Content-type:text/html;charset=utf-8");
 include('conf_db.php');
+
 $db = isset($_POST['db']) ? intval($_POST['db']) : 0;
 $key = isset($_POST['key']) ? trim($_POST['key']) : '';
+$conn = isset($_POST['conn']) ? intval($_POST['conn']) : 0;
 $type = isset($_POST['type']) ? trim($_POST['type']) : 'string';
 $index = isset($_POST['index']) ? trim($_POST['index']) : '';
 
 if($key == ''){
     ajaxRet('无效请求');
 }
+$conf = $config[$conn];
 
 $Redis = new Redis();  
 $Redis->connect($conf['host'],$conf['port']);
