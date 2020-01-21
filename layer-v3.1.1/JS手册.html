@@ -1,0 +1,254 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+h1,h2,h3,h4,h5,h6,p,blockquote{margin:0;padding:0}body{font-family:"Helvetica Neue",Helvetica,"Hiragino Sans GB",Arial,sans-serif;font-size:13px;line-height:18px;color:#333;background-color:white;margin:10px 13px 10px 13px}a{color:#0069d6}a:hover{color:#0050a3;text-decoration:none}a img{border:none}p{margin-bottom:9px}h1,h2,h3,h4,h5,h6{color:#404040;line-height:36px}h3{font-size:18px}h5{font-size:14px}h6{font-size:13px}code,pre{font-family:Monaco,Andale Mono,Courier New,monospace}code{background-color:#fee9cc;color:rgba(0,0,0,0.75);padding:1px 3px;font-size:13px;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px}pre{display:block;padding:5px;margin:5px;line-height:16px;font-size:13px;border:1px solid #d9d9d9;white-space:pre-wrap;word-wrap:break-word}pre code{background-color:#fff;color:#737373;font-size:13px;padding:0}sup{font-size:0.83em;vertical-align:super;line-height:0}*{-webkit-print-color-adjust:exact}@media screen and (min-width:1200px){body{width:1000px;margin:10px auto}}@media print{body,code,pre code,h1,h2,h3,h4,h5,h6{color:black}table,pre{page-break-inside:avoid}}.right_fbox{width:150px;height:90%;border:1px solid #333;position:fixed;float:right;left:10px;top:20px;z-index:999}
+h3,ol{margin-left:50px;}ol{width:95%;}
+</style>
+<title>手册</title>
+</head>
+<body>
+<h3>目录</h3>
+<span class="right_fbox">
+    <div>
+        <h5><a href="#layer"><code>Layer使用</code></a></h5>
+        <a href="#layer-open"><code>open</code></a>
+        <a href="#layer-msg"><code>msg</code></a>
+        <a href="#layer-tips"><code>tips</code></a>
+        <a href="#layer-load"><code>load</code></a>
+        <a href="#layer-confirm"><code>confirm</code></a>
+    </div>
+    <div>
+        <h5><a href="#layui"><code>LayUI使用</code></a></h5>
+        <a href="#layui-upload"><code>上传</code></a>
+    </div>
+    <div>
+        <h5><a href="#other"><code>其他</code></a></h5>
+        <a href="#other-stop"><code>禁止事件冒泡</code></a>
+        <a href="#other-load"><code>加载中</code></a>        
+    </div>
+    <div>
+        <h5><a href="#cache"><code>缓存文件类</code></a></h5>
+        <a href="#cache-file"><code>普通文件缓存</code></a><br/>  
+        <a href="#cache-sql"><code>SQL普通文件缓存</code></a><br/>
+        <a href="#cache-ramsql"><code>SQL内存缓存</code></a>  
+    </div>
+</span>
+
+<h3 id="layer">一、Layer使用 <a style="font-size:14px;" target="_blank" href="https://www.layui.com/demo/">www.layui.com</a></h3>
+
+<ol>
+    <li>引入
+    <pre><code>
+    &lt;script src="{$_G['resurl']}/js/layer/layer.js"&gt;&lt;/script&gt;
+    </code></pre>
+    </li>
+
+    <li id="layer-open">
+    open的使用<br/>
+    <pre><code>
+    layer.open({
+        type: 1,
+        area: ['300px', '180px'],
+        closeBtn: 1,        
+        shadeClose: true,
+        title:"导出",
+        content: $('#id')        
+    });
+    备注：也可以这样 content: 'html代码'
+    </code></pre>
+    </li>
+
+    <li id="layer-msg">
+    msg的使用<br/>
+    <pre><code>
+    layer.msg('请选择开始和结束时间！', {icon: 5});
+    icon[1:√ 2:叉 3:问号 4:锁 5:哭 6:笑 7:叹号]   
+
+    layer.msg('操作成功', {time:1200,btnAlign:'c',btn:['我知道了']});
+    time:自动关闭毫秒数，0不关闭
+
+    </code></pre>
+    <pre><code>
+    layer.msg('您确认要删除么？', { time:0,btnAlign:'c',btn:['确认','取消'],
+        yes:function(layIndex) {
+            layer.close(layIndex);
+            layer.msg("删除成功", {icon: 1});
+       }
+    });    
+    </code></pre>
+    </li>
+
+    <li id="layer-tips">
+    tips的使用<br/>
+    <pre><code>
+    layer.tips('请选择开始时间和结束时间！','#btn_export', {
+        tips: [4, '#78BA32']        
+    });
+    位置：1上，3下，4左
+    </code></pre>
+    </li>
+
+    <li id="layer-load">
+    Load加载中<br/>
+    <pre><code>
+    var index = layer.load();
+    layer.close(index); 
+    </code></pre>
+    </li>
+
+    <li id="layer-confirm">
+    confirm的使用<br/>
+    <pre><code>
+    layer.confirm('纳尼？', {
+        btn: ['按钮一', '按钮二', '按钮三'],
+        btn3: function(index) {
+            alert(3);
+        }
+    }, function(index, layero) {
+        alert(1);
+        layer.close(index);
+    }, function(index) {
+        alert(2);
+    });
+    更改按钮二样式
+    $(".layui-layer-btn1").attr("style","background-color:#ff7300;");
+    </code></pre>
+    </li>
+</ol>
+
+
+<h3 id="layui">二、Layui使用 <a style="font-size:14px;" target="_blank" href="http://layer.layui.com/">layer.layui.com</a></h3>
+<ol>
+    <li>引入
+    <pre><code>
+    &lt;link rel="stylesheet" href="{$_G[resurl]}/css/layui.css"&gt;
+    &lt;script src="{$_G['resurl']}/js/layui.all.js"&gt;&lt;/script&gt;
+    </code></pre>
+    </li>
+
+    <li>
+    样式<br/>
+    <pre><code>
+    标准按钮 .layui-btn
+    迷你按钮 .layui-btn-small
+
+    灰色 .btn-mod-grey
+    红色 .btn-mod-danger
+    </code></pre>
+    </li>
+
+    <li id="layui-upload">
+    上传事件<br/>
+    <pre><code>
+    var loadIndex = '';
+    layui.use('upload', function() {
+        var upload = layui.upload;
+        var uploadInst = upload.render({
+            accept: 'file',
+            elem: '#pureImport',
+            url: './?mod=hotelRoom&do=pureImport',
+            before: function(obj) { 
+                loadIndex = layer.load();            
+            },
+            done: function(res) {
+                layer.close(loadIndex);            
+                if(res.code == 0){
+                    layer.msg('上传成功！', {btn: ['知道了'],btnAlign:'c'},function(){
+                        location.reload();
+                    });
+                }else{
+                    layer.msg(res.msg,{btn: ['知道了'],btnAlign:'c'});
+                }
+            },
+            error: function() {
+                layer.close(loadIndex);
+            }
+        });
+    });
+    </code></pre>
+    </li>
+</ol>
+
+<h3 id="other">三、其他</h3>
+<ol>
+    <li id="other-stop">
+    禁止事件冒泡<br/>
+    <pre><code>
+    $("input[type='checkbox']").on("click",function(e){
+        //禁止事件向上传导
+        if (e && e.stopPropagation) {
+            e.stopPropagation();
+        } else {
+            //IE
+            window.event.cancelBubble = true;
+        }
+        var chnum = $("input[type='checkbox']:checked").size();
+        if(chnum){
+            $('.all_qianyi').show();
+        }else{
+            $('.all_qianyi').hide();
+        }        
+    });
+    </code></pre>
+    </li>
+
+    <li id="other-load">
+    加载中<br/>
+    <pre><code>
+    var loading = function(){
+    document.write('&lt;div id="com_loading" style="position:fixed;height:100%;width:100%;top:0;right:0;z-index:9999;background:#dddddd;background-image: url('+libPath+'layui/images/loading.gif);background-repeat: no-repeat;background-position:center;">&lt;/div>');
+    };
+    document.onreadystatechange = function () {
+        if(document.readyState =="complete") {    
+            setTimeout(function(){document.getElementById("com_loading").remove();},150);
+        }     
+    }
+    </code></pre>
+    </li>
+
+</ol>
+
+<h3 id="cache">四、缓存文件</h3>
+<ol>
+    <li id="cache-file">
+    普通文件缓存<br/>
+    <pre><code>
+    //设置缓存成功返回文件字节长度既 >0 test是键值180是时效秒，默认3600。
+    $cache = CacheFile::cache('test',['val'=>'cachefile',123],180);
+    //读取缓存
+    var_dump(CacheFile::cache('test'));
+    </code></pre>
+    </li>
+
+    <li id="cache-sql">
+    SQL普通文件缓存<br/>
+    <pre><code>
+    参数：
+    第一个参数 $DB 数据库连接
+    第二个参数 sql 语句
+    第三个参数 sql使用的查询方法 getAll getOne getRows getCol
+    第四个参数 查询结果使用的索引名称
+    第五个参数 时效秒
+    $set = CacheFile::sql($DB,'SELECT id,agent FROM agentswitch','getAll','agent',200);
+    </code></pre>
+    </li>
+
+    <li id="cache-ramsql">
+    SQL内存缓存<br/>
+    <pre><code>
+    $model = CacheFile::single();
+    foreach($list AS $val){
+        $agent_name = $mod->RAMsql($DB,'SELECT agent FROM agentswitch where id='.$val['agent_id'],'getRows','agent');
+    }
+    使用场景：在循环中多次执行同一条sql去查询结果时使用，比如上例循环，根据数据源ID获取数据源名称。
+    再比如根据管理员ID获取管理员姓名。
+    注意，由于是内存式缓存，其值有效时间为当前进程。
+    </code></pre>
+    </li>
+
+</ol>
+</body>
+</html>
