@@ -17,6 +17,8 @@
   .layer_text p{margin-bottom: 10px; text-indent: 2em; line-height: 23px;}
   .button{display:inline-block; *display:inline; *zoom:1; line-height:30px; padding:0 20px; background-color:#56B4DC; color:#fff; font-size:14px; border-radius:3px; cursor:pointer; font-weight:normal;}
   .photos-demo img{width:200px;}
+
+  .layui-layer-btn1{background-color:#ffccff;border-color:#ffccff}
   </style>
   
   <script src="jquery.min.js"></script>
@@ -39,11 +41,14 @@
 <div class="box" style="text-align:center">
   <a href="http://layer.layui.com/" target="_blank">更多示例</a>
   <a href="javascript:;" id="tips">tips</a>
+  <a href="javascript:;" id="tipsAndFn">tipsAndFn</a>
   <a href="javascript:;" id="alert">alert</a>
   <a href="javascript:;" id="divDialog">自定义弹窗</a>
   <a href="javascript:;" id="tipDialog">询问窗</a>
   <a href="javascript:;" id="tipDialog2">询问2</a>
   <a href="javascript:;" id="load">Load</a>
+  <a href="javascript:;" id="confirm">confirm</a>
+  
 </div>
 
 <script>
@@ -119,7 +124,36 @@ $("#load").on("click",function() {
 	//关闭
 	//layer.close(index);     
 });
+$("#tipsAndFn").on("click",function(){
+	layer.msg('添加成功！', {btn: ['知道了'],btnAlign:'c'},function(){
+		alert("ok");
+	});	
+});
 
+
+$("#confirm").on("click",function(){
+  layer.confirm('纳尼？', {btn: ['按钮一', '按钮二']},function(index){
+	  alert(1);
+	  layer.close(index);  
+	});
+
+	//cont();    
+});
+//高级确认弹窗
+function cont(){
+  layer.confirm('纳尼？', {
+	  btn: ['按钮一', '按钮二', '按钮三']
+	  ,btn3: function(index){
+		alert(3);
+	  }
+	}, function(index,layero){
+	  alert(1);
+	  layer.close(index);  
+	}, function(index){
+	  alert(2);
+  });
+  $(".layui-layer-btn1").attr("style","background-color:#ff7300;border-color:#ff7300;");
+}
 </script>
 </body>
 </html>

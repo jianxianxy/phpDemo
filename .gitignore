@@ -2,6 +2,7 @@
 conf_pro.php
 Runtime/*
 /sql/
+/log/
 /nbproject/
 /thinkphp/
 redisAdmin/conf_db.php
