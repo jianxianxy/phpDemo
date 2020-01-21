@@ -1,4 +1,5 @@
 *.log
+test.php
 conf_pro.php
 Runtime/*
 /sql/
